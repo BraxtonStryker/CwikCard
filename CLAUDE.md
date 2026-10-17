@@ -1,6 +1,6 @@
 # CwikCard
 
-Flashcards with spaced repetition from a QuizQrusher question CSV. Part of the study apps at https://braxtonstryker.github.io/ (with QuizQrusher in `../Quiz_Qrusher/` and InfoBase in `../Class_Base/`). Hosted on GitHub Pages at `/CwikCard/` (repo `BraxtonStryker/CwikCard`). **v1.0.0** built 2026-10-16.
+Flashcards with spaced repetition from a QuizQrusher question CSV. Part of the study apps at https://braxtonstryker.github.io/ (with QuizQrusher in `../Quiz_Qrusher/` and InfoBase in `../Class_Base/`). Hosted on GitHub Pages at `/CwikCard/` (repo `BraxtonStryker/CwikCard`). **v1.0.1** (2026-10-17: Beta tag next to the name, as in InfoBase). v1.0.0 built 2026-10-16.
 
 ## Layout
 - `index.html`: the whole app. `sw.js`, `manifest.webmanifest`, `icons/` (`icon.svg` and `icon-maskable.svg` are the sources of the PNGs): the installable offline app.

@@ -122,6 +122,8 @@
   .brand{background:none; border:none; color:var(--ink); font-size:calc(17px * var(--fs)); font-weight:750; letter-spacing:-.02em; padding:14px 0}
   .brand span{color:var(--accent)}
   .brandgrp{display:flex; align-items:center; gap:2px}
+  .beta{font-size:calc(11px * var(--fs)); font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-soft);
+    border:1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius:999px; padding:1px 8px; margin-left:4px}   /* as in InfoBase */
   .tabs{display:flex; align-items:center; gap:2px; overflow-x:auto; scrollbar-width:none; flex:1; min-width:0}
   .tabs::-webkit-scrollbar{display:none}
   .tabs .push{flex:1; min-width:12px}
@@ -130,7 +132,7 @@
   .tab[aria-current="page"]{color:var(--accent); border-bottom-color:var(--accent)}
   .tab.icon{display:inline-grid; place-items:center; padding:12px 10px 10px}
   .tab.icon svg{width:20px; height:20px}
-  @media (max-width:560px){ .appbar-in{gap:0} .brand{padding:12px 0 0} .appsw{margin-top:12px} .tabs{flex-basis:100%} .tab{padding:10px 10px 11px} }
+  @media (max-width:560px){ .appbar-in{gap:0} .brand{padding:12px 0 0} .appsw, .beta{margin-top:12px} .tabs{flex-basis:100%} .tab{padding:10px 10px 11px} }
 
   /* ---------- App switcher: the down arrow before the logotype opens a menu of the study apps, with Home last ---------- */
   .appsw{position:relative; display:flex; align-items:center}
@@ -416,6 +418,7 @@
         </div>
       </div>
       <button class="brand" type="button" data-go="home">Cwik<span>Card</span></button>
+      <span class="beta">Beta</span>
     </div>
     <nav class="tabs" aria-label="Main">
       <button class="tab" type="button" data-tab="home" aria-current="page">Decks</button>
@@ -702,6 +705,8 @@
 
       <h2 id="help-whatsnew">What's new</h2>
       <dl class="versions">
+        <dt>v1.0.1 &middot; October 2026</dt>
+        <dd>CwikCard is in beta, like InfoBase: a Beta tag now sits next to the name.</dd>
         <dt>v1.0 &middot; October 2026</dt>
         <dd>The first version: decks from a QuizQrusher question CSV, FSRS, SM-2 and Leitner scheduling with learning steps, front-to-back, back-to-front or both, practice rounds that leave the schedule alone, undo, flag, bury, suspend, edit, leeches, Browse, Stats, keyboard shortcuts and swipes, backups, Settings, and an installable app that works offline.</dd>
       </dl>
@@ -784,7 +789,7 @@
 (function(){
   "use strict";
 
-  var APP_VERSION = "1.0.0";
+  var APP_VERSION = "1.0.1";
   var NS = "cwikCard:";   // every GitHub Pages project of this user shares one origin, so namespace every key
   var el = function(id){ return document.getElementById(id); };
 
