@@ -1,6 +1,6 @@
 # CwikCard
 
-Flashcards with spaced repetition from a QuizQrusher question CSV. Part of the study apps at https://braxtonstryker.github.io/ (with QuizQrusher in `../Quiz_Qrusher/` and InfoBase in `../Class_Base/`). Hosted on GitHub Pages at `/CwikCard/` (repo `BraxtonStryker/CwikCard`). **v1.0.1** (2026-10-17: Beta tag next to the name, as in InfoBase). v1.0.0 built 2026-10-16.
+Flashcards with spaced repetition from a QuizQrusher question CSV. Part of the study apps at https://braxtonstryker.github.io/ (with QuizQrusher in `../Quiz_Qrusher/`, InfoBase in `../Class_Base/` and RunDown in `../RunDown/`). Hosted on GitHub Pages at `/CwikCard/` (repo `BraxtonStryker/CwikCard`). **v1.0.2** (2026-10-18: RunDown in the app switcher). v1.0.1 (2026-10-17): Beta tag next to the name, as in InfoBase. v1.0.0 built 2026-10-16.
 
 ## Layout
 - `index.html`: the whole app. `sw.js`, `manifest.webmanifest`, `icons/` (`icon.svg` and `icon-maskable.svg` are the sources of the PNGs): the installable offline app.
@@ -11,7 +11,7 @@ Flashcards with spaced repetition from a QuizQrusher question CSV. Part of the s
 - Every color is a CSS custom property on `:root`, with dark values for "Match system" and `data-theme="dark"`. Font sizes are `calc(Npx * var(--fs))`; card text also uses `--cs` (Settings > Card text size, and + / - while studying).
 - American spelling. Every localStorage, IndexedDB and cache name starts with `cwikCard` (`cwikCard:settings`, `cwikCard:app`, `cwikCard-<version>`): all of the user's GitHub Pages apps share one origin.
 - Copied from QuizQrusher and kept in step by hand: the appearance block in `<head>`, the CSV reader and shuffle engine (marked "Copied from QuizQrusher"), the storage backends, Settings rows, the app switcher, and the service worker. If QuizQrusher's CSV contract or shuffle changes, change it here too.
-- The app switcher (`setupAppSwitch`) is the same menu as in QuizQrusher and InfoBase; keep the three in step. Hidden from `file://`.
+- The app switcher (`setupAppSwitch`) is the same menu as in QuizQrusher, InfoBase and RunDown; keep the four in step. Hidden from `file://`.
 
 ## How it works
 - **Data:** IndexedDB `cwikCard:app` with stores `decks` (name, `csvText`, `csvHash`, `edits`, `opts`) and `progress` (`cards`: card id -> state, `log`: one entry per answer `{t, c, r, k, i, d}`, `extra`: today's extra new cards). Falls back to localStorage, then memory, like QuizQrusher. Change the schema only with a new `DB_VERSION` and an upgrade step.
