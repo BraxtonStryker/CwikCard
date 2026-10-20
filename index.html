@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CwikCard</title>
-<!--v1.0 - flashcards with spaced repetition, from the same question CSV as QuizQrusher. Single file: inline CSS and JS, no build step,
+<!--v1.1 - flashcards with spaced repetition, from the same question CSV as QuizQrusher or a term list. Single file: inline CSS and JS, no build step,
     nothing loaded from other sites. The look, settings and CSV reader come from QuizQrusher (Quiz_Qrusher/index.html).-->
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#C2410C" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#161C25" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-title" content="CwikCard">
-<meta name="description" content="Flashcards with spaced repetition from a question CSV, offline. Anki-style scheduling, keyboard shortcuts and practice rounds.">
+<meta name="description" content="Flashcards with spaced repetition from a question CSV or term list, offline. Anki-style scheduling, keyboard shortcuts and practice rounds.">
 <style>
   :root{
     color-scheme:light;
@@ -32,7 +32,7 @@
     --shadow-knob:0 1px 3px rgba(0,0,0,.3);
     --overlay:rgba(10,14,20,.55);
     --fs:1; --lh:1; --cs:1;                  /* text size, line spacing and card text size (Settings) */
-    --app-qq:#4338CA; --app-ib:#1E7A4C; --app-cc:#C2410C; --app-rd:#0F766E;  /* each study app's own color, for the app switcher */
+    --app-qq:#4338CA; --app-ib:#1E7A4C; --app-cc:#C2410C; --app-rd:#1D4ED8;  /* each study app's own color, for the app switcher */
     --font-body:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   @media (prefers-color-scheme: dark){
@@ -48,7 +48,7 @@
         --navy:#8FB0E8; --navy-soft:#1A2436;
         --on-accent:#2A1405;
         --knob:#F4F6FA;
-        --app-qq:#8B87FF; --app-ib:#6FD3A0; --app-cc:#FB923C; --app-rd:#2DD4BF;
+        --app-qq:#8B87FF; --app-ib:#6FD3A0; --app-cc:#FB923C; --app-rd:#6EA8FE;
         --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
     }
   }
@@ -64,7 +64,7 @@
       --navy:#8FB0E8; --navy-soft:#1A2436;
       --on-accent:#2A1405;
       --knob:#F4F6FA;
-      --app-qq:#8B87FF; --app-ib:#6FD3A0; --app-cc:#FB923C; --app-rd:#2DD4BF;
+      --app-qq:#8B87FF; --app-ib:#6FD3A0; --app-cc:#FB923C; --app-rd:#6EA8FE;
       --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
   }
   /* fonts (Settings > Text). Atkinson Hyperlegible: Copyright 2020 Braille Institute of America, Inc.,
@@ -255,6 +255,7 @@
   .fclabel{font-size:calc(12px * var(--fs)); text-transform:uppercase; letter-spacing:.07em; color:var(--muted); font-weight:700}
   .fctext{font-size:calc(20px * var(--fs) * var(--cs)); line-height:calc(1.45 * var(--lh)); white-space:pre-wrap; overflow-wrap:anywhere}
   .fcback{border-top:1.5px dashed var(--line); padding-top:16px; margin-top:6px; display:flex; flex-direction:column; gap:10px}
+  .fcsrc{font-size:calc(13px * var(--fs)); color:var(--muted)}
   .fcback .fctext{font-weight:650; color:var(--ink)}
   .choices{margin:4px 0 0; padding-left:26px; font-size:calc(16px * var(--fs) * var(--cs)); line-height:calc(1.45 * var(--lh))}
   .choices li{margin:3px 0; padding-left:4px}
@@ -414,8 +415,8 @@
           <a class="appsw-item qq" role="menuitem" href="../Quiz_Qrusher/"><svg viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="swqq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5145E6"/><stop offset="1" stop-color="#3A31B8"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#swqq)"/><g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><circle cx="246" cy="240" r="153" stroke-width="50"/><path d="M368 336L430 378" stroke-width="54"/><path d="M190 244L232 288L304 200" stroke-width="34"/></g></svg><span>Quiz<b>Qrusher</b></span></a>
           <a class="appsw-item ib" role="menuitem" href="../Class_Base/"><svg viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="swib" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24935C"/><stop offset="1" stop-color="#16603B"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#swib)"/><rect x="132" y="92" width="268" height="190" rx="24" fill="#FFFFFF" fill-opacity=".42"/><rect x="92" y="130" width="282" height="206" rx="26" fill="#FFFFFF"/><path d="M136 186H290M136 230H252M136 274H214" fill="none" stroke="#1B7047" stroke-width="22" stroke-linecap="round"/><circle cx="338" cy="326" r="70" fill="#1B7047" stroke="#FFFFFF" stroke-width="30"/><path d="M392 380L432 420" fill="none" stroke="#FFFFFF" stroke-width="42" stroke-linecap="round"/></svg><span>Info<b>Base</b></span></a>
           <a class="appsw-item cc" role="menuitem" href="../CwikCard/" aria-current="page"><svg viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="swcc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F26B1D"/><stop offset="1" stop-color="#B83A0A"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#swcc)"/><rect x="168" y="92" width="232" height="300" rx="30" fill="#FFFFFF" fill-opacity=".42" transform="rotate(12 284 242)"/><g transform="rotate(-6 236 268)"><rect x="120" y="118" width="232" height="300" rx="30" fill="#FFFFFF"/><path d="M262 166L192 290H240L218 372L290 244H242Z" fill="#C2410C"/></g></svg><span>Cwik<b>Card</b></span></a>
-          <a class="appsw-item rd" role="menuitem" href="../RunDown/"><svg viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="swrd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14A394"/><stop offset="1" stop-color="#0B5F59"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#swrd)"/><rect x="104" y="84" width="256" height="328" rx="30" fill="#FFFFFF"/><path d="M152 156H272" stroke="#0F766E" stroke-width="32" stroke-linecap="round"/><path d="M152 222H312M152 276H286M152 330H230" stroke="#0F766E" stroke-opacity=".5" stroke-width="22" stroke-linecap="round"/><circle cx="356" cy="360" r="82" fill="#0F766E" stroke="#FFFFFF" stroke-width="28"/><path d="M356 314V398M322 366L356 400L390 366" fill="none" stroke="#FFFFFF" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Run<b>Down</b></span></a>
-          <a class="appsw-home" role="menuitem" href="../"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#131A24"/><rect x="14" y="14" width="16" height="16" rx="4" fill="#5145E6"/><rect x="34" y="14" width="16" height="16" rx="4" fill="#24935C"/><rect x="14" y="34" width="16" height="16" rx="4" fill="#E8611A"/><rect x="34" y="34" width="16" height="16" rx="4" fill="#14A394"/></svg><span>Home<small>All study apps</small></span></a>
+          <a class="appsw-item rd" role="menuitem" href="../RunDown/"><svg viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="swrd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2F6BEA"/><stop offset="1" stop-color="#1E40AF"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#swrd)"/><rect x="104" y="84" width="256" height="328" rx="30" fill="#FFFFFF"/><path d="M152 156H272" stroke="#1D4ED8" stroke-width="32" stroke-linecap="round"/><path d="M152 222H312M152 276H286M152 330H230" stroke="#1D4ED8" stroke-opacity=".5" stroke-width="22" stroke-linecap="round"/><circle cx="356" cy="360" r="82" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="28"/><path d="M356 314V398M322 366L356 400L390 366" fill="none" stroke="#FFFFFF" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Run<b>Down</b></span></a>
+          <a class="appsw-home" role="menuitem" href="../"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#131A24"/><rect x="14" y="14" width="16" height="16" rx="4" fill="#5145E6"/><rect x="34" y="14" width="16" height="16" rx="4" fill="#24935C"/><rect x="14" y="34" width="16" height="16" rx="4" fill="#E8611A"/><rect x="34" y="34" width="16" height="16" rx="4" fill="#2F6BEA"/></svg><span>Home<small>All study apps</small></span></a>
         </div>
       </div>
       <button class="brand" type="button" data-go="home">Cwik<span>Card</span></button>
@@ -458,17 +459,18 @@
     <div class="backbar"><button class="linkbtn back" type="button" data-go="home">&larr; Decks</button></div>
     <div class="card hero">
       <h1>Add a deck</h1>
-      <p class="lede">Drop in a question CSV, the same file QuizQrusher uses. Each question becomes a card: the question on the front and its correct answer on the back. A CwikCard backup, or a QuizQrusher backup with its question banks, works here too.</p>
+      <p class="lede">Drop in a question CSV, the same file QuizQrusher uses: each question becomes a card, with the question on the front and its correct answer on the back. Or a term list with four columns, <strong>term, definition, category, slide or deck</strong>: the term goes on the front, its definition on the back, the category becomes the card's tag, and the slide or deck is shown under the answer. A CwikCard backup, or a QuizQrusher backup with its question banks, works here too.</p>
       <label class="drop" id="importDrop" for="importInput" tabindex="0" role="button" aria-label="Choose a file to import">
         <span class="glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></span>
         <div id="importStatus"><strong>Choose a file</strong> or drop it here</div>
-        <span class="filehint">.csv question bank &middot; .json CwikCard or QuizQrusher backup</span>
+        <span class="filehint">.csv question bank or term list &middot; .json CwikCard or QuizQrusher backup</span>
       </label>
       <input type="file" id="importInput" accept=".csv,.json,text/csv,application/json" class="hidden">
       <div id="importError" class="err hidden" role="alert"></div>
       <div id="importDone" class="ok hidden" role="status"></div>
       <div class="startfoot">
         <button class="linkbtn" id="templateBtn" type="button">Download an example CSV</button>
+        <button class="linkbtn" id="termsTemplateBtn" type="button">Download an example term list</button>
         <a class="linkbtn hidden" id="qqLink" href="../Quiz_Qrusher/">Make a CSV with QuizQrusher's AI prompts</a>
       </div>
     </div>
@@ -526,6 +528,7 @@
           <div class="fclabel" id="fcBackLabel">Answer</div>
           <div class="fctext" id="fcBackText"></div>
           <ol class="choices hidden" id="fcChoicesBack" type="A"></ol>
+          <div class="fcsrc hidden" id="fcSrc"></div>
         </div>
       </div>
       <div class="answerarea">
@@ -617,7 +620,7 @@
 
       <h2 id="help-start">Getting started</h2>
       <ol>
-        <li>Get a question CSV. The easiest way is QuizQrusher's AI workflow, which writes one from your lecture slides. Its header row is <code>Category, Question_Text, Option_1</code> &hellip; <code>Option_6, Correct_Option_Number</code>. <button class="linkbtn" type="button" id="helpTemplateBtn">Download an example CSV</button></li>
+        <li>Get a question CSV. The easiest way is QuizQrusher's AI workflow, which writes one from your lecture slides. Its header row is <code>Category, Question_Text, Option_1</code> &hellip; <code>Option_6, Correct_Option_Number</code>. <button class="linkbtn" type="button" id="helpTemplateBtn">Download an example CSV</button> Or make a term list: <code>Term, Definition, Category, Source</code>, where the source is a slide number or deck name. <button class="linkbtn" type="button" id="helpTermsTemplateBtn">Download an example term list</button></li>
         <li>On Decks, choose <strong>Add a deck</strong> and drop the CSV in. Or press <strong>Try a sample deck</strong> to look around first.</li>
         <li>Press <strong>Study</strong>. Read the front, recall the answer, press <strong>Show answer</strong> (or Space), then rate yourself: <strong>Again</strong>, <strong>Hard</strong>, <strong>Good</strong> or <strong>Easy</strong>.</li>
         <li>Come back each day. The deck list shows what's waiting: <span class="cnt"><span class="n">new</span><span class="l">learning</span><span class="r">to review</span></span>.</li>
@@ -625,9 +628,10 @@
 
       <h2 id="help-csv">Making cards</h2>
       <p>Every row of the CSV becomes one note. Its question goes on the front, its correct option on the back, and its category becomes the card's tag. The other options are kept too: Settings &gt; Studying can show all the answer choices on the front (multiple-choice style) or list them on the back.</p>
+      <p>A term list works too: four columns, the term, its definition, its category (the subject), and where it came from (a slide number or a deck name), with or without a header row. The term goes on the front, the definition on the back, the category becomes the tag, so a practice round can cover one subject, and the source is shown under the answer. A bare number reads as &ldquo;Slide 12&rdquo;. Three columns (term, definition, source) work too, with the source as the tag, and so do two.</p>
       <ul>
         <li><strong>Direction:</strong> each deck can show <strong>Front &rarr; Back</strong> (question first), <strong>Back &rarr; Front</strong> (answer first: recall the question it belongs to), or <strong>Both</strong>, which makes two cards per note that are scheduled separately. Change it in the deck's options.</li>
-        <li><strong>Updating a deck:</strong> if you get a new version of the CSV, open the deck and use <strong>Update from CSV</strong>. Cards whose category, question and correct option didn't change keep their progress.</li>
+        <li><strong>Updating a deck:</strong> if you get a new version of the CSV, open the deck and use <strong>Update from CSV</strong>. Cards whose category, question and correct option didn't change keep their progress. In a term list, every term that's still there keeps its progress, even if its definition, category or source changed.</li>
         <li><strong>Editing:</strong> press <kbd>E</kbd> while studying, or Edit in Browse, to fix a card's wording. Edits stay with the deck and the card keeps its progress.</li>
       </ul>
 
@@ -694,7 +698,7 @@
       <p>The down arrow next to the CwikCard name opens a menu of the other study apps: QuizQrusher for practice quizzes, and InfoBase for searching your slides and textbooks. Home, at the bottom, goes to the study apps homepage.</p>
 
       <h2 id="help-settings">Settings</h2>
-      <p>The &#x2699; in the top right corner. Appearance (theme, accent color, color-blind-safe colors, reduced motion), text (size, line spacing, an easy-to-read font, card text size), studying (category tags, answer choices, next-review times on the buttons, keyboard hints, swipes, the timer, when the day rolls over), defaults for new decks, and data tools (storage use, Export all, Clear all). Each deck's own options (scheduler, direction, daily limits, steps) are on the deck's page.</p>
+      <p>The &#x2699; in the top right corner. Appearance (theme, accent color, color-blind-safe colors, reduced motion), text (size, line spacing, an easy-to-read font, card text size), studying (the category tag on the front, answer choices, next-review times on the buttons, keyboard hints, swipes, the timer, when the day rolls over), defaults for new decks, and data tools (storage use, Export all, Clear all). Each deck's own options (scheduler, direction, daily limits, steps) are on the deck's page.</p>
 
       <h2 id="help-privacy">Privacy</h2>
       <ul>
@@ -706,6 +710,8 @@
 
       <h2 id="help-whatsnew">What's new</h2>
       <dl class="versions">
+        <dt>v1.1 &middot; October 2026</dt>
+        <dd>Term lists: a CSV with a term, its definition, its category and the slide or deck it came from makes a deck too. The category is each card's tag and the source shows under the answer. RunDown is blue in the study apps menu. The category tag now appears with the answer. To see it before you answer, turn on Settings &gt; Studying &gt; Category on the front.</dd>
         <dt>v1.0.2 &middot; October 2026</dt>
         <dd>RunDown, a new Markdown word processor, joins the study apps menu.</dd>
         <dt>v1.0.1 &middot; October 2026</dt>
@@ -792,7 +798,7 @@
 (function(){
   "use strict";
 
-  var APP_VERSION = "1.0.2";
+  var APP_VERSION = "1.1.0";
   var NS = "cwikCard:";   // every GitHub Pages project of this user shares one origin, so namespace every key
   var el = function(id){ return document.getElementById(id); };
 
@@ -800,7 +806,7 @@
   var SETTINGS_DEFAULTS = {
     theme: "system", accent: "orange", colorBlind: false, reduceMotion: false,          // Appearance
     textScale: 1, lineSpacing: 1, font: "system", cardScale: 1,                         // Text
-    showCategory: true, choices: "off", showIntervals: true, keyboardHints: true,       // Studying
+    catFront: false, choices: "off", showIntervals: true, keyboardHints: true,       // Studying
     swipe: true, timer: false, dayStart: 4,
     defScheduler: "fsrs", defDirection: "fwd", defNewPerDay: 20, defReviewsPerDay: 200  // New decks
   };
@@ -916,6 +922,52 @@
   function hashStr(s){ var h = 2166136261 >>> 0; for (var i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
   function shuffle(arr, rnd){ var a = arr.slice(); for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(rnd() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
   /* === end of the copy from QuizQrusher === */
+
+  // A deck's CSV is either a QuizQrusher question bank or a term list: Term, Definition, Category, Source (a slide number
+  // or deck name), with or without a header row. A term becomes a one-option question, so the rest of the app treats both
+  // alike: the term is the front, the definition the back, the category the tag, and the source is shown under the answer
+  // (a bare number reads "Slide N"). Three columns are Term, Definition, Source, with the source as the tag (v1.1's first
+  // term lists); a header row can name the columns in any order after the first two. A term's id hashes only the term,
+  // so fixing a definition, category or source in Update from CSV keeps the card's progress.
+  var TERM_HEAD = { term: 1, terms: 1, keyterm: 1, word: 1, words: 1, concept: 1, vocab: 1, vocabulary: 1, front: 1 };
+  var DEF_HEAD = { definition: 1, definitions: 1, def: 1, defn: 1, meaning: 1, description: 1, explanation: 1, back: 1 };
+  var CAT_HEAD = { category: 1, categories: 1, subject: 1, topic: 1, tag: 1, tags: 1, unit: 1, chapter: 1, course: 1, class: 1 };
+  var SRC_HEAD = /^(slide|deck|source|lecture|page|ref|lesson|week)/;
+  function readDeckCsv(text){
+    var rows = parseCSV(text), h = rows.length ? headerIndex(rows[0]) : {};
+    if (findCol(h, "questiontext") != null || findCol(h, "correctoptionnumber") != null || findCol(h, "option1") != null) return buildQuestions(rows);
+    return buildTerms(rows);
+  }
+  function headWord(cell){ return String(cell == null ? "" : cell).toLowerCase().replace(/[^a-z0-9]+/g, ""); }
+  function isHead(cell, words){ return norm(cell) in words || headWord(cell) in words; }   // "Term (EN)", "[term]"
+  function isSrcHead(cell){ return SRC_HEAD.test(norm(cell)) || SRC_HEAD.test(headWord(cell)); }   // "[slide num/deck]"
+  function buildTerms(rows){
+    var head = rows.length && (isHead(rows[0][0], TERM_HEAD) || isHead(rows[0][1], DEF_HEAD)), out = [], width = 0, catCol = -1, srcCol = -1;
+    rows.forEach(function(row){ for (var i = row.length - 1; i >= width; i--){ if (String(row[i]).trim() !== ""){ width = i + 1; break; } } });
+    if (width > 4){
+      throw new Error("This CSV has more than four columns, so it isn't a term list. Use Term, Definition, Category, Source (slide or deck), or QuizQrusher's header row: Category, Question_Text, Option_1 … Option_6, Correct_Option_Number.");
+    }
+    if (head){
+      for (var c = 2; c < width; c++){
+        if (catCol < 0 && isHead(rows[0][c], CAT_HEAD)) catCol = c;
+        else if (srcCol < 0 && isSrcHead(rows[0][c])) srcCol = c;
+      }
+    }
+    if (width === 4){   // a column the header didn't name takes the other spot
+      if (catCol < 0) catCol = srcCol === 2 ? 3 : 2;
+      if (srcCol < 0) srcCol = catCol === 3 ? 2 : 3;
+    } else if (width === 3 && catCol < 0 && srcCol < 0) srcCol = 2;
+    for (var r = head ? 1 : 0; r < rows.length; r++){
+      var row = rows[r].map(function(v){ return String(v).trim(); });
+      var term = row[0] || "", def = row[1] || "", cat = row[catCol] || "", src = row[srcCol] || "";
+      if (!term || !def) continue;
+      if (/^\d+$/.test(src)) src = "Slide " + src;
+      if (catCol < 0){ cat = src; src = ""; }   // no category column: the source is the tag
+      out.push({ id: hashStr("term|" + term), category: cat || "Uncategorized", text: term, options: [{ n: 1, text: def }], correct: 1, source: src });
+    }
+    if (out.length === 0) throw new Error("No cards found. Use a term list (Term, Definition, Category, Source) or a QuizQrusher question CSV.");
+    return out;
+  }
 
   // QuizQrusher's question shuffler (scrambleAll), used here for cards: a fresh seed every time, and never the same order
   // as the last shuffle of the same list (key). Shuffles new cards, the reviews within each day, and practice rounds.
@@ -1092,7 +1144,7 @@
   function newDeckOpts(){ return { scheduler: settings.defScheduler, direction: settings.defDirection, newPerDay: +settings.defNewPerDay, reviewsPerDay: +settings.defReviewsPerDay }; }
   function notesOf(deck){
     if (NOTES[deck.id]) return NOTES[deck.id];
-    var qs = buildQuestions(parseCSV(deck.csvText)), seen = {}, list = [], byId = {}, edits = deck.edits || {};
+    var qs = readDeckCsv(deck.csvText), seen = {}, list = [], byId = {}, edits = deck.edits || {};
     qs.forEach(function(q){
       var base = (q.id >>> 0).toString(36), id = base, k = 1;
       while (seen[id]) id = base + "-" + (++k);                       // duplicate rows each keep their own note
@@ -1100,7 +1152,7 @@
       var right = q.options.filter(function(o){ return o.n === q.correct; })[0], e = edits[id] || {};
       var back = typeof e.back === "string" ? e.back : right.text;
       var nt = { id: id, front: typeof e.front === "string" ? e.front : q.text, back: back,
-                 category: typeof e.category === "string" ? e.category : q.category,
+                 category: typeof e.category === "string" ? e.category : q.category, source: q.source || "",
                  choices: q.options.map(function(o){ return o.n === q.correct ? back : o.text; }), right: q.options.indexOf(right), edited: !!edits[id] };
       list.push(nt); byId[id] = nt;
     });
@@ -1390,7 +1442,9 @@
     el("fcFront").textContent = rev ? nt.back : nt.front;
     el("fcBackText").textContent = rev ? nt.front : nt.back;
     el("fcCat").textContent = nt.category;
-    el("fcCat").classList.toggle("hidden", !settings.showCategory || !nt.category);
+    el("fcCat").classList.toggle("hidden", !settings.catFront || !nt.category);   // otherwise reveal() shows it with the answer
+    el("fcSrc").textContent = nt.source ? "Source: " + nt.source : "";
+    el("fcSrc").classList.toggle("hidden", !nt.source);
     el("fcDir").classList.toggle("hidden", !rev);
     var stEl = el("fcState");
     if (sess.mode === "practice"){ stEl.textContent = "Practice"; stEl.className = "fcstate p"; }
@@ -1459,6 +1513,7 @@
     if (!sess || !sess.cur || sess.revealed) return;
     sess.revealed = true;
     el("fcBack").classList.remove("hidden");
+    if (el("fcCat").textContent) el("fcCat").classList.remove("hidden");
     Array.prototype.forEach.call(el("fcChoicesFront").querySelectorAll("li[data-right]"), function(li){ li.classList.add("right"); });
     el("showBtn").classList.add("hidden");
     if (sess.mode === "practice") el("practiceBar").classList.remove("hidden");
@@ -1858,7 +1913,7 @@
   // The same CSV text always maps to the same deck (as QuizQrusher does with question banks)
   function addDeckFromCsv(csvText, fileName, name){
     return new Promise(function(resolve){
-      buildQuestions(parseCSV(csvText));   // throws a user-facing error for a bad CSV
+      readDeckCsv(csvText);   // throws a user-facing error for a bad CSV
       var hash = hashStr(csvText), hit = sortedDecks().filter(function(d){ return d.csvHash === hash; })[0];
       if (hit){ resolve({ deck: hit, existed: true }); return; }
       var now = Date.now();
@@ -1880,7 +1935,7 @@
       pairs.forEach(function(pr){
         var d = pr.deck;
         if (!d || !d.id || typeof d.csvText !== "string"){ n.skipped++; return; }
-        try { buildQuestions(parseCSV(d.csvText)); } catch (e){ n.skipped++; return; }
+        try { readDeckCsv(d.csvText); } catch (e){ n.skipped++; return; }
         var p = pr.progress || {}, at = Math.max(p.updatedAt || 0, d.updatedAt || 0), ex = DECKS[d.id];
         if (ex && Math.max(PROG[d.id].updatedAt || 0, ex.updatedAt || 0) >= at){ n.kept++; last = ex; return; }   // the newer copy wins
         var deck = { id: String(d.id), name: String(d.name || cleanName(d.fileName)).slice(0, 120), fileName: d.fileName || "", csvText: d.csvText, csvHash: hashStr(d.csvText),
@@ -1937,6 +1992,14 @@
     "Circuits,What is the time constant of an RC circuit with R = 10 kΩ and C = 100 μF?,0.1 s,1 s,10 s,1 ms,10 ms,100 s,2",
     "Thermodynamics,What is the Carnot efficiency of a heat engine running between 600 K and 300 K?,25%,33%,50%,67%,75%,100%,3",
     "Statics,A 2 m simply supported beam carries a 10 kN load at midspan. What is each support reaction?,2.5 kN,5 kN,10 kN,20 kN,7.5 kN,0 kN,2"
+  ].join("\r\n") + "\r\n";
+  var SAMPLE_TERMS_CSV = [
+    "Term,Definition,Category,Source",
+    "Mitochondrion,The organelle that makes most of the cell's ATP by oxidative phosphorylation,Biology,Lecture 2",
+    "Ribosome,\"The RNA-protein complex that translates mRNA into protein, free in the cytosol or bound to the rough ER\",Biology,Lecture 2",
+    "Osmosis,The movement of water across a semipermeable membrane toward the side with more solute,Physiology,4",
+    "Ohm's law,\"V = IR: the voltage across a resistor equals the current through it times its resistance\",Circuits,7",
+    "Entropy,\"A measure of a system's disorder, or of the number of microstates consistent with its macrostate\",Thermodynamics,Thermo deck"
   ].join("\r\n") + "\r\n";
   function addSample(){
     addDeckFromCsv(SAMPLE_CSV, "cwikcard_sample.csv", "Sample deck").then(function(r){ openDeck(r.deck.id); }, function(e){ showToast((e && e.message) || String(e), "OK", null); });
@@ -2061,9 +2124,9 @@
       var v = window.prompt("Deck name", d.name);
       if (v && v.trim()){ d.name = v.trim().slice(0, 120); saveDeck(d); renderDeck(); }
     }).id = "renameBtn";
-    row("Update from CSV", "Load a newer version of the CSV. Cards whose category, question and correct option didn't change keep their progress.", "Choose CSV…", "subtle", function(){ el("updateInput").click(); });
+    row("Update from CSV", "Load a newer version of the CSV. Cards whose category, question and correct option didn't change keep their progress (in a term list, every term that's still there).", "Choose CSV…", "subtle", function(){ el("updateInput").click(); });
     row("Export deck", "This deck and its progress as a .json file, to keep or to move to another device.", "Export", "subtle", function(b){ b.title = exportDeck(d); b.textContent = "Downloaded"; }).id = "exportDeckBtn";
-    row("Download the CSV", "The question file this deck was made from (your edits aren't in it).", "Download", "subtle", function(){ download(d.csvText, d.fileName || safeFile(d.name) + ".csv", "text/csv"); });
+    row("Download the CSV", "The CSV this deck was made from (your edits aren't in it).", "Download", "subtle", function(){ download(d.csvText, d.fileName || safeFile(d.name) + ".csv", "text/csv"); });
     row("Reset progress", "Makes every card in this deck new again and clears its history.", "Reset", "subtle danger", function(){
       if (!window.confirm("Reset all progress in “" + d.name + "”? Every card becomes new again. This can't be undone.")) return;
       PROG[d.id] = { id: d.id, cards: {}, log: [], extra: null };
@@ -2082,7 +2145,7 @@
     var d = DECKS[curDeck];
     if (!d) return;
     readFile(file).then(function(text){
-      buildQuestions(parseCSV(text));   // a bad CSV stops here and leaves the deck alone
+      readDeckCsv(text);   // a bad CSV stops here and leaves the deck alone
       var before = notesOf(d).byId, p = PROG[d.id];
       d.csvText = text; d.csvHash = hashStr(text); d.fileName = file.name; delete NOTES[d.id];
       var after = notesOf(d).byId, kept = 0, added = 0, removed = 0;
@@ -2132,7 +2195,7 @@
         if (f === "susp" && !(s && s.susp)) return;
         if (f === "bury" && !(s && s.bury && s.bury > now)) return;
         if (f === "leech" && !(s && s.leech)) return;
-        if (words.length){ var hay = (nt.front + " " + nt.back + " " + nt.category).toLowerCase(); if (!words.every(function(w){ return hay.indexOf(w) >= 0; })) return; }
+        if (words.length){ var hay = (nt.front + " " + nt.back + " " + nt.category + " " + nt.source).toLowerCase(); if (!words.every(function(w){ return hay.indexOf(w) >= 0; })) return; }
         rows.push({ d: d, cid: cid, nt: nt, s: s });
       });
     });
@@ -2159,7 +2222,7 @@
     if (s && s.bury && s.bury > now) pill("s", "Buried");
     if (s && s.flag) pill("f", "Flagged");
     if (s && s.leech) pill("x", "Leech");
-    meta.appendChild(document.createTextNode((rev ? "Back → Front · " : "") + x.nt.category + (showDeck ? " · " + x.d.name : "") + (s && s.lapses ? " · " + plural(s.lapses, "lapse") : "")));
+    meta.appendChild(document.createTextNode((rev ? "Back → Front · " : "") + x.nt.category + (x.nt.source ? " · " + x.nt.source : "") + (showDeck ? " · " + x.d.name : "") + (s && s.lapses ? " · " + plural(s.lapses, "lapse") : "")));
     main.appendChild(fr); main.appendChild(bk); main.appendChild(meta);
     var acts = document.createElement("div"); acts.className = "rowacts";
     var setSt = function(fn){ var p = PROG[x.d.id], cur = copy(p.cards[x.cid]) || { s: "new" }; fn(cur); p.cards[x.cid] = cur; saveProgress(x.d.id); renderBrowse(false); };
@@ -2265,7 +2328,7 @@
         options: [[0.7, "70%"], [0.8, "80%"], [0.9, "90%"], [1, "Default"], [1.1, "110%"], [1.2, "120%"], [1.3, "130%"], [1.5, "150%"], [1.7, "170%"], [2, "200%"]] }
     ]},
     { title: "Studying", rows: [
-      { key: "showCategory", label: "Show the category tag", type: "switch" },
+      { key: "catFront", label: "Category on the front", desc: "Show the category tag before the answer. When this is off, it appears with the answer.", type: "switch" },
       { key: "choices", label: "Answer choices", desc: "The CSV's other options: on the front like a multiple-choice question, or listed on the back.", type: "seg", options: [["off", "Off"], ["front", "On the front"], ["back", "On the back"]] },
       { key: "showIntervals", label: "Show next review times on the buttons", type: "switch" },
       { key: "keyboardHints", label: "Show keyboard hints", type: "switch" },
@@ -2418,6 +2481,8 @@
   el("updateInput").addEventListener("change", function(e){ var f = e.target.files[0]; this.value = ""; if (f) updateDeckFromCsv(f); });
   el("templateBtn").addEventListener("click", function(){ download(SAMPLE_CSV, "cwikcard_example.csv", "text/csv"); });
   el("helpTemplateBtn").addEventListener("click", function(){ download(SAMPLE_CSV, "cwikcard_example.csv", "text/csv"); });
+  el("termsTemplateBtn").addEventListener("click", function(){ download(SAMPLE_TERMS_CSV, "cwikcard_terms_example.csv", "text/csv"); });
+  el("helpTermsTemplateBtn").addEventListener("click", function(){ download(SAMPLE_TERMS_CSV, "cwikcard_terms_example.csv", "text/csv"); });
   el("sampleBtn").addEventListener("click", addSample);
   el("whatsNewBtn").addEventListener("click", function(){ show("helpScreen"); el("help-whatsnew").scrollIntoView(); });
   Array.prototype.forEach.call(document.querySelectorAll("[data-help]"), function(b){

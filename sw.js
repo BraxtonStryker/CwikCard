@@ -9,7 +9,7 @@
  * - Cache names start with "cwikCard-": every GitHub Pages project of this user shares the origin.
  */
 "use strict";
-const VERSION = "80e34a018f53"; // generated: tools/sw_version.py --sync
+const VERSION = "d469a2ad7129"; // generated: tools/sw_version.py --sync
 const CACHE = "cwikCard-" + VERSION;
 const PRECACHE = [
   "./",
